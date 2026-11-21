@@ -1,0 +1,20 @@
+# orders-db: Users, Orders, Alembic
+
+## Запуск
+source venv/bin/activate
+pip install -r requirements.txt
+export DATABASE_URL="postgresql+psycopg2://orders_user:orders_pass@localhost:5432/orders_db"
+
+## Миграции
+alembic upgrade head        # накатить
+alembic downgrade -1        # откатить на шаг
+alembic downgrade base      # полностью очистить схему
+
+## Тесты
+pytest -v
+
+## Структура
+app/models.py — ORM-модели User и Order
+app/repository.py — репозитории (без commit/rollback)
+app/use_cases.py — граница транзакции
+tests/ — pytest: атомарность и N+1
